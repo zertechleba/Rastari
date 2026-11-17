@@ -14,14 +14,19 @@ if [[ $? -eq 0 ]]; then
 	echo -e  "${YELLOW}Checking for Rpi updates...${NOCOLOR}"
 	apt-get update -y
 	apt-get upgrade -y
-	rpi-update
+	# rpi-update je určen pro starší firmware a na Raspberry Pi 5 nepatří
+	if grep -q "Raspberry Pi 5" /proc/device-tree/model 2>/dev/null; then
+		echo -e  "${YELLOW}Raspberry Pi 5: rpi-update se přeskakuje${NOCOLOR}"
+	else
+		rpi-update
+	fi
 	apt-get autoclean -y
 	apt-get autoremove -y
-	SetAutoLogin
-	apt-get install build-essential libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev git-core -y
+	apt-get install build-essential libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev hatari unzip curl git-core -y
 	echo -e  "${YELLOW}Checking for Rastari updates...${NOCOLOR}"
 	cd /tmp
-	git clone https://github.com/emartisoft/Rastari
+	rm -rf /tmp/Rastari
+	git clone https://github.com/zertechleba/Rastari /tmp/Rastari
 	cd Rastari/
 	chmod +x ./install.sh
 	./install.sh

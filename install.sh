@@ -49,6 +49,8 @@ else
 	chmod a+x ./Configuration
 	chmod a+x ./ResizeSD
 	./updateConfig.sh
+	echo -e  "${BLUE}--== Updating EmuTOS ==--${NOCOLOR}"
+	./update_emutos.sh || echo -e  "${YELLOW}EmuTOS se nepodařilo aktualizovat, Rastari poběží s dosavadním ROM${NOCOLOR}"
 	cd ~
 	echo -e  "${BLUE}--== Rastari ${ver} is compiled & installed  ==--${NOCOLOR}"
 	echo -e  "${YELLOW}Rebooting...${NOCOLOR}"
